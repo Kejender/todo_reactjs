@@ -5,16 +5,17 @@ import ListForm from '../components/ListForm'
 import TaskForm from '../components/TaskForm'
 import TaskEditForm from '../components/TaskEditForm'
 import ListEditForm from '../components/RenameList'
+import ErrorMessage from '../components/ErrorMessage'
 
 const App = () => {
 
-  // States
-  const [todolists, setToDoLists] = useState([
-    { name: 'Lista 1', id: 0, tasks: []}
-  ]) 
-
+  // array of list objects and included tasks
+  const [todolists, setToDoLists] = useState([])
+  
+  // helper states
   const [storeChecked, setStoreStatus] = useState(false)  
   const [newName, setNewName] = useState('')
+  const [updatedName, setUpdatedName] = useState('')
   const [newTask, setNewTask] = useState('')
   const [newStatus, setNewStatus] = useState('')
   const [newDescription, setNewDescription] = useState('')
@@ -24,6 +25,7 @@ const App = () => {
   const [selectedTask, setSelectedTask] = useState([])
   const [selectedTaskId, setSelectedTaskId] = useState([])
   const [selectedDescription, setSelectedDescription] = useState([]) 
+  const [errorMessage, setErrorMessage] = useState('') 
 
   // Selecting component groups for showing and hiding
   let list_view_visibility = document.getElementById('listview');
@@ -31,24 +33,25 @@ const App = () => {
   let task_edit_visibility = document.getElementById('taskedit');
   let list_edit_visibility = document.getElementById('listedit');
 
+  // form selections
   let addtaskform = document.getElementById("addtask");
   let renamelistform = document.getElementById("renamelist");
 
+  // local storage
   if (!storeChecked){
     if (localStorage.getItem("ToDoLists")) {
       console.log("store is available")
       let newToDoObject = localStorage.getItem("ToDoLists");
       console.log(JSON.parse(newToDoObject));
       setStoreStatus(true)
-      //setToDoLists(JSON.parse(newToDoObject))
+      setToDoLists(JSON.parse(newToDoObject))
     } else {
       console.log("store is NOT available")
+      localStorage.setItem("ToDoLists", JSON.stringify(todolists));
+      //let newToDoObject = localStorage.getItem("ToDoLists");
+      //console.log(JSON.parse(newToDoObject));
     }
   }
-
-//  localStorage.setItem("ToDoLists", JSON.stringify(todolists));
-//  let newToDoObject = localStorage.getItem("ToDoLists");
-//  console.log(JSON.parse(newToDoObject));
 
   // storing the selected todo list, showing and hiding component groups
   const showTaskView = (todo) => {
@@ -226,8 +229,8 @@ const App = () => {
   // handling form field changes
   const handleListNameChange = (event) => {
     console.log(event.target.value)
-    //selectedList(event.target.value)
-    //console.log("descr "+newListName)
+    setUpdatedName(event.target.value)
+    console.log(updatedName)
   }
 
   // adding a new todo list
@@ -240,31 +243,41 @@ const App = () => {
 
       let duplicate_name = false
 
+      console.log(todolists.length)
+
       todolists.forEach(list => {
         if (list.name === newName){
           console.log("duplicate name")
+          setErrorMessage('The same name exists')
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 4000)
           duplicate_name = true
         }
       })
 
       if (!duplicate_name) {
         const todoListObject = {
-        name: newName,
-        id: Math.floor(Math.random(5) * (10000 - 1000)),
-        tasks: []
+          name: newName,
+          id: Math.floor(Math.random(5) * (10000 - 1000)),
+          tasks: []
       }
   
         setToDoLists(todolists.concat(todoListObject))
         console.log(todolists)
 
         localStorage.setItem("ToDoLists", JSON.stringify(todolists));
-        let newToDoObject = localStorage.getItem("ToDoLists");
-        console.log("added to localstorage")
-        console.log(JSON.parse(newToDoObject));
+        //let newToDoObject = localStorage.getItem("ToDoLists");
+        //console.log("added to localstorage")
+        //console.log(JSON.parse(newToDoObject));
       }
   }
   else {
     console.log("too short list name length")
+    setErrorMessage('Too short name')
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 4000)
   }
     setNewName('')
   }
@@ -299,9 +312,9 @@ const App = () => {
       })
 
       localStorage.setItem("ToDoLists", JSON.stringify(todolists));
-      let newToDoObject = localStorage.getItem("ToDoLists");
-      console.log("localstorage")
-      console.log(JSON.parse(newToDoObject));
+      //let newToDoObject = localStorage.getItem("ToDoLists");
+      //console.log("localstorage")
+      //console.log(JSON.parse(newToDoObject));
 
     }
     else {
@@ -329,6 +342,7 @@ const App = () => {
         console.log(task)
         let deleteindex = selectedTasks.indexOf(task)
         selectedTasks.splice(deleteindex, 1)
+        
         console.log(selectedTasks)
       }
       else{
@@ -352,6 +366,7 @@ const App = () => {
         console.log("yes id")
         console.log(list)
         setNewName(list.name)
+        localStorage.setItem("ToDoLists", JSON.stringify(todolists));
         list_view_visibility.classList.replace("visible", "hidden")
         task_view_visibility.classList.replace("visible", "hidden")
         task_edit_visibility.classList.replace("visible", "hidden")
@@ -386,34 +401,55 @@ const App = () => {
     })
     console.log("lists")
     console.log(todolists)
+    localStorage.setItem("ToDoLists", JSON.stringify(todolists));
     showListView()
   }
 
   // renaming a todo list
   const renameList = (event) => {
-    console.log("renamelist ")
-    console.log(todolists)
     event.preventDefault()
+    console.log("new name: " + updatedName)
+    console.log("name to be updated: " +selectedList)
+
+    let list_exists = false
+    let list_rename 
 
     todolists.forEach(list => {
-      console.log("current "+list.name)
-      console.log("current "+list.id)
-      console.log("new name "+newName)
-      console.log("selected "+selectedListId)
+      console.log("current name"+list.name)
+      console.log("current id: "+list.id)
+      console.log("new name "+updatedName)
+      console.log("selected list id: "+selectedListId)
 
-      if (list.name === newName && list.id != selectedListId){
-        console.log("same name exists")
-      }
-      else if (list.id === selectedListId) {
-        console.log("Different name, correct id"+list.name)
-        list.name = newName
-        console.log(todolists)
+      // checks if the given new name exists, excluding the list item being updated
+      if (list.name === updatedName && list.id != selectedListId){
+        console.log("same name exists "+ list.name + " " + updatedName)
+        setErrorMessage('The same name exists')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
         setNewName('')
-        setSelectedList('')
-        setSelectedListId('')
-        renamelistform.reset()
+        list_exists = true
+      }
+
+      // list item with the selected id is stored for updating
+      if (list.id === selectedListId) {
+        console.log(todolists)
+        list_rename = list
       }
     })
+
+    // if the new name does not exist in the list, excluding the selected list item, the selected list item is updated
+    if (!list_exists) {
+      setSelectedList(updatedName)
+      setNewName('')
+      renamelistform.reset()
+      addtaskform.reset()
+      list_rename.name = updatedName
+      localStorage.setItem("ToDoLists", JSON.stringify(todolists));
+      setSelectedList('')
+      setSelectedListId('')
+    }
+
     list_view_visibility.classList.replace("hidden", "visible")
     task_view_visibility.classList.replace("visible", "hidden")
     task_edit_visibility.classList.replace("visible", "hidden")
@@ -454,7 +490,6 @@ const App = () => {
 
   return (
     <div>
-
       <div id='listview' className='visible'>
       <h2>Todo Lists</h2>
         {todolists.map(todo => <ToDoList key={todo.id} todo={todo} showTaskView={showTaskView} setSelectedList={setSelectedList}/>)}
@@ -488,9 +523,9 @@ const App = () => {
 
      <div id='listedit' className='hidden'>
      <h2>Rename list</h2>
-        <ListEditForm handleListChange={handleListChange} showListView={showListView} selectedList={selectedList} renameList={renameList}/>
+        <ListEditForm handleListNameChange={handleListNameChange} showListView={showListView} selectedList={selectedList} renameList={renameList}/>
      </div>
-
+     <ErrorMessage errorMessage={errorMessage}/>
     </div>
   )
 }
