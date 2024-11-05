@@ -82,7 +82,7 @@ const App = () => {
   // Showing and hiding component groups
   const showListView = (event) => {
     console.log("show list view")
-    //event.preventDefault()
+    event.preventDefault()
     list_view_visibility.classList.replace("hidden", "visible")
     task_view_visibility.classList.replace("visible", "hidden")
     task_edit_visibility.classList.replace("visible", "hidden")
@@ -511,9 +511,8 @@ const App = () => {
         </div>
         {selectedTasks.map(task => <Task key={task.id} task={task} editTask={editTask}/>)}
         <TaskForm addTask={addTask} handleTaskChange={handleTaskChange} handleDescriptionChange={handleDescriptionChange} newTask={newTask} 
-        showListView={showListView} setNewDescription={setNewDescription}/>
+        showListView={showListView}/>
      </div>
-
      <div id='taskedit' className='hidden'>
         <h2>{selectedTask}</h2>
         <button onClick={deleteTask} className='actionbutton'>Delete this task</button>
