@@ -1,4 +1,4 @@
-const TaskForm = ({ addTask, handleTaskChange, handleDescriptionChange, newTask, selectedDescription, newDescription, showListView }) => {
+const TaskForm = ({ addTask, handleTaskChange, handleDescriptionChange, newTask, newDescription, showListView }) => {
     return (
         <form id="addtask" onSubmit={addTask}>
             <div>

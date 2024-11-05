@@ -1,5 +1,4 @@
-const TaskEditForm = ({ handleDescriptionUpdate, selectedDescription, returnTaskView, selectedList, 
-    selectedTask, updateTask, changeStatus}) => {
+const TaskEditForm = ({ handleDescriptionUpdate, selectedDescription, returnTaskView, updateTask, changeStatus}) => {
     return (
         <form onSubmit={updateTask}>
             <div>

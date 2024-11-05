@@ -6,6 +6,7 @@ const ListForm = ({ addToDoList, handleListChange, newName }) => {
                 onChange={handleListChange}
                 value={newName}
                 id="rename_list_field"
+                aria-label="Enter todo list name"
                 maxLength={60}
                 />
             </div>
