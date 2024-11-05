@@ -25,7 +25,7 @@ const App = () => {
   const [selectedTask, setSelectedTask] = useState([])
   const [selectedTaskId, setSelectedTaskId] = useState([])
   const [selectedDescription, setSelectedDescription] = useState([]) 
-  const [errorMessage, setErrorMessage] = useState('') 
+  const [errorMessage, setErrorMessage] = useState(null) 
 
   // Selecting component groups for showing and hiding
   let list_view_visibility = document.getElementById('listview');
