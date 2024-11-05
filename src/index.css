@@ -109,3 +109,9 @@ input {
 textarea {
   width: 100%;
 }
+
+.error {
+  border: 2px solid red;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+}
