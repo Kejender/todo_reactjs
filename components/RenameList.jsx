@@ -5,6 +5,7 @@ const RenameList = ({ handleListChange, newName, selectedList, renameList, showL
                 Name: <input 
                 onChange={handleListChange}
                 defaultValue={selectedList}
+                aria-label="Enter new list name"
                 id="name"
                 maxLength={60}
                 />
