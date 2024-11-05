@@ -463,7 +463,7 @@ const App = () => {
     
     const all_tasks = document.getElementsByClassName("task")
 
-    if (event.target.value === 'all_status') {
+    if (event.target.value === 'all') {
       console.log('show all tasks')
 
       Array.from(all_tasks).forEach(el => {
@@ -480,7 +480,7 @@ const App = () => {
         console.log("button value "+ event.target.value)
         console.log("task status "+ task.status)
         if (task.status === event.target.value){
-          console.log("joo status")
+          console.log("status found")
           let selectedtask = document.getElementById(task.id);
           selectedtask.classList.replace("hidden_task", "visible_task")
         }
@@ -504,10 +504,10 @@ const App = () => {
         </div>
         <div>
           <h3>Filter by status</h3>
-          <button onClick={filterTasks} className='statusfilterbutton' value="all_status">All</button>
-          <button onClick={filterTasks} className='statusfilterbutton' value="todo_status">ToDo</button>
-          <button onClick={filterTasks} className='statusfilterbutton' value="doing_status">Doing</button>
-          <button onClick={filterTasks} className='statusfilterbutton' value="done_status">Done</button>
+          <button onClick={filterTasks} className='statusfilterbutton' value="all">All</button>
+          <button onClick={filterTasks} className='statusfilterbutton' value="todo">ToDo</button>
+          <button onClick={filterTasks} className='statusfilterbutton' value="doing">Doing</button>
+          <button onClick={filterTasks} className='statusfilterbutton' value="done">Done</button>
         </div>
         {selectedTasks.map(task => <Task key={task.id} task={task} editTask={editTask}/>)}
         <TaskForm addTask={addTask} handleTaskChange={handleTaskChange} handleDescriptionChange={handleDescriptionChange} newTask={newTask} 

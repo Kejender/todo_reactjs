@@ -3,9 +3,9 @@ const TaskEditForm = ({ handleDescriptionUpdate, selectedDescription, returnTask
     return (
         <form onSubmit={updateTask}>
             <div>
-                <button onClick={changeStatus} id="todobutton" className="statusbutton" value={"todo_status"}>Todo</button>
-                <button onClick={changeStatus} id="doingbutton" className="statusbutton" value={"doing_status"}>Doing</button>
-                <button onClick={changeStatus} id="donebutton" className="statusbutton" value={"done_status"}>Done</button>
+                <button onClick={changeStatus} id="todobutton" className="statusbutton" value={"todo"}>Todo</button>
+                <button onClick={changeStatus} id="doingbutton" className="statusbutton" value={"doing"}>Doing</button>
+                <button onClick={changeStatus} id="donebutton" className="statusbutton" value={"done"}>Done</button>
             </div>
             <div>
                 Description: <textarea 
