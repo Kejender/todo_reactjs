@@ -1,6 +1,6 @@
 const ListForm = ({ addToDoList, handleListChange, newName }) => {
     return (
-        <form id="rename_list" onSubmit={addToDoList}>
+        <form id="create_list" onSubmit={addToDoList}>
             <div>
                 Name: <input 
                 onChange={handleListChange}

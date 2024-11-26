@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ToDoList from '../components/ToDoList'
 import Task from '../components/Task'
 import ListForm from '../components/ListForm'
@@ -12,6 +12,8 @@ const App = () => {
   // array of list objects and included tasks
   const [todolists, setToDoLists] = useState([])
   
+  console.log("rerendered", todolists)
+
   // helper states
   const [storeChecked, setStoreStatus] = useState(false)  
   const [newName, setNewName] = useState('')
@@ -37,21 +39,21 @@ const App = () => {
   let addtaskform = document.getElementById("addtask");
   let renamelistform = document.getElementById("renamelist");
 
-  // local storage
-  if (!storeChecked){
-    if (localStorage.getItem("ToDoLists")) {
-      console.log("store is available")
-      let newToDoObject = localStorage.getItem("ToDoLists");
-      console.log(JSON.parse(newToDoObject));
-      setStoreStatus(true)
-      setToDoLists(JSON.parse(newToDoObject))
-    } else {
-      console.log("store is NOT available")
-      localStorage.setItem("ToDoLists", JSON.stringify(todolists));
-      //let newToDoObject = localStorage.getItem("ToDoLists");
-      //console.log(JSON.parse(newToDoObject));
-    }
-  }
+  // local storage initializing, saving to localStorage
+
+    useEffect(() => {
+      if (todolists.lenghth == 0) {
+        console.log("mounted, empty array")
+        let newToDoObject = localStorage.getItem('ToDoLists');
+        if (newToDoObject) {
+          console.log("newtodoobject")
+          setToDoLists(JSON.parse(newToDoObject));
+        }
+      } else {
+        console.log("set localstorage")
+        localStorage.setItem('ToDoLists', JSON.stringify(todolists));
+      }
+    }, [todolists]);
 
   // storing the selected todo list, showing and hiding component groups
   const showTaskView = (todo) => {
@@ -82,7 +84,7 @@ const App = () => {
   // Showing and hiding component groups
   const showListView = (event) => {
     console.log("show list view")
-    event.preventDefault()
+    //event.preventDefault()
     list_view_visibility.classList.replace("hidden", "visible")
     task_view_visibility.classList.replace("visible", "hidden")
     task_edit_visibility.classList.replace("visible", "hidden")
@@ -136,7 +138,7 @@ const App = () => {
       }
     })
 
-        //list_view_visibility.classList.replace("hidden", "visible")
+    //list_view_visibility.classList.replace("hidden", "visible")
     task_edit_visibility.classList.replace("hidden", "visible")
     task_view_visibility.classList.replace("visible", "hidden")
   }
@@ -159,7 +161,7 @@ const App = () => {
         //setSelectedTasks(list.tasks)
       }
       else{
-        console.log("no")
+        console.log("wrong task")
       }
     })
 
@@ -167,6 +169,7 @@ const App = () => {
       if (list.id === selectedListId){
         console.log("yes list id")
         list.tasks = selectedTasks
+        localStorage.setItem("ToDoLists", JSON.stringify(todolists));
 
         //task.description = newDescription
         //task.status = newStatus
@@ -235,15 +238,14 @@ const App = () => {
 
   // adding a new todo list
   const addToDoList = (event) => {
-    console.log("add list")
+    console.log("add to list:", newName)
     event.preventDefault()
+    console.log("List of todo lists length:", todolists.length)
 
     if (newName.length > 1) {
       console.log("Good list name length")
 
       let duplicate_name = false
-
-      console.log(todolists.length)
 
       todolists.forEach(list => {
         if (list.name === newName){
@@ -256,20 +258,18 @@ const App = () => {
         }
       })
 
-      if (!duplicate_name) {
+      if (!duplicate_name || todolists.length === 0) {
+        console.log("good list name")
         const todoListObject = {
           name: newName,
           id: Math.floor(Math.random(5) * (10000 - 1000)),
           tasks: []
       }
-  
+        console.log("new object:", todoListObject)
         setToDoLists(todolists.concat(todoListObject))
         console.log(todolists)
 
-        localStorage.setItem("ToDoLists", JSON.stringify(todolists));
-        //let newToDoObject = localStorage.getItem("ToDoLists");
-        //console.log("added to localstorage")
-        //console.log(JSON.parse(newToDoObject));
+        //localStorage.setItem("ToDoLists", JSON.stringify(todolists));
       }
   }
   else {
@@ -280,6 +280,7 @@ const App = () => {
     }, 4000)
   }
     setNewName('')
+    console.log(todolists)
   }
 
   // adding a new task when submitting the form
@@ -302,7 +303,7 @@ const App = () => {
       // finding the correct list for adding the task to
       todolists.forEach(list => {
         if (list.name === selectedList){
-          console.log("yes"+list.name+list.id+list.tasks)
+          console.log("list found", list.name, list.id, list.tasks)
           list.tasks.push(taskObject)
           setSelectedTasks(list.tasks)
         }
@@ -310,25 +311,19 @@ const App = () => {
           console.log("wrong list "+selectedList)
         }
       })
-
       localStorage.setItem("ToDoLists", JSON.stringify(todolists));
-      //let newToDoObject = localStorage.getItem("ToDoLists");
-      //console.log("localstorage")
-      //console.log(JSON.parse(newToDoObject));
-
     }
     else {
       console.log("Too short task name length")
     }
-
     //console.log("task list "+tasks)
     addtaskform.reset()
 
-    console.log("todo lists")
-    console.log(todolists)
+    console.log("todo lists", todolists)
     setNewTask('')
     setNewDescription('')
-    console.log(newDescription)
+    console.log("addtask ends")
+
   }
 
   // Deleting a task
@@ -357,6 +352,7 @@ const App = () => {
     task_edit_visibility.classList.replace("visible", "hidden")
   }
 
+  // renaming the todo list
   const openListEdit = (event) => {
     console.log("edit list")
     event.preventDefault()
@@ -366,7 +362,7 @@ const App = () => {
         console.log("yes id")
         console.log(list)
         setNewName(list.name)
-        localStorage.setItem("ToDoLists", JSON.stringify(todolists));
+        //localStorage.setItem("ToDoLists", JSON.stringify(todolists));
         list_view_visibility.classList.replace("visible", "hidden")
         task_view_visibility.classList.replace("visible", "hidden")
         task_edit_visibility.classList.replace("visible", "hidden")
@@ -389,7 +385,7 @@ const App = () => {
       if (list.id === selectedListId){
         console.log("yes id")
         console.log(list)
-        let deleteindex = selectedTasks.indexOf(list)
+        let deleteindex = todolists.indexOf(list)
         todolists.splice(deleteindex, 1)
         console.log(deleteindex)
         console.log(todolists)
@@ -401,7 +397,7 @@ const App = () => {
     })
     console.log("lists")
     console.log(todolists)
-    localStorage.setItem("ToDoLists", JSON.stringify(todolists));
+    //localStorage.setItem("ToDoLists", JSON.stringify(todolists));
     showListView()
   }
 
@@ -415,10 +411,10 @@ const App = () => {
     let list_rename 
 
     todolists.forEach(list => {
-      console.log("current name"+list.name)
-      console.log("current id: "+list.id)
-      console.log("new name "+updatedName)
-      console.log("selected list id: "+selectedListId)
+      console.log("current name:", list.name)
+      console.log("current id: ", list.id)
+      console.log("new name:", updatedName)
+      console.log("selected list id: ", selectedListId)
 
       // checks if the given new name exists, excluding the list item being updated
       if (list.name === updatedName && list.id != selectedListId){

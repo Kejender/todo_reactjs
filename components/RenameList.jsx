@@ -1,9 +1,9 @@
-const RenameList = ({ handleListChange, newName, selectedList, renameList, showListView }) => {
+const RenameList = ({ handleListNameChange, newName, selectedList, renameList, showListView }) => {
     return (
         <form onSubmit={renameList} id="renamelist">
             <div>
                 Name: <input 
-                onChange={handleListChange}
+                onChange={handleListNameChange}
                 defaultValue={selectedList}
                 aria-label="Enter new list name"
                 id="name"
