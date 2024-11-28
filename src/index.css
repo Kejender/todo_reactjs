@@ -6,7 +6,8 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-  margin-left: 20%;
+  width: 60%;
+  margin: auto;
  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -25,9 +26,10 @@ a:hover {
 
 body {
   display: flex;
-  /*place-items: center;*/
+  /*place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  width: 80%;*/
 }
 
 h1 {
@@ -103,11 +105,11 @@ button:focus-visible {
 }
 
 input {
-  width: 100%;
+  /*width: 80%;*/
 }
 
 textarea {
-  width: 100%;
+  /*width: 90%;*/
 }
 
 .error {
