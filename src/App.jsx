@@ -84,7 +84,7 @@ const App = () => {
   // Showing and hiding component groups
   const showListView = (event) => {
     console.log("show list view")
-    //event.preventDefault()
+    event.preventDefault()
     list_view_visibility.classList.replace("hidden", "visible")
     task_view_visibility.classList.replace("visible", "hidden")
     task_edit_visibility.classList.replace("visible", "hidden")
