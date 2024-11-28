@@ -2,7 +2,7 @@ const TaskForm = ({ addTask, handleTaskChange, handleDescriptionChange, newTask,
     return (
         <form id="addtask" onSubmit={addTask}>
             <div>
-                <label>Task name:</label>
+                <label for="taskname">Task name:</label>
                 <input 
                     onChange={handleTaskChange}
                     value={newTask}
@@ -10,7 +10,7 @@ const TaskForm = ({ addTask, handleTaskChange, handleDescriptionChange, newTask,
                     id="taskname"/>
             </div>
             <div>
-                <label>Description:</label>
+                <label for="taskdescription">Description:</label>
                 <textarea 
                     onChange={handleDescriptionChange}
                     aria-label="Enter task description"
