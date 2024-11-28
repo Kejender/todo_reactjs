@@ -2,7 +2,7 @@ const ListForm = ({ addToDoList, handleListChange, newName }) => {
     return (
         <form id="create_list" onSubmit={addToDoList}>
             <div>
-                Name: <input 
+                New ToDo list name: <input 
                 onChange={handleListChange}
                 value={newName}
                 id="rename_list_field"
@@ -11,7 +11,7 @@ const ListForm = ({ addToDoList, handleListChange, newName }) => {
                 />
             </div>
             <div>
-                <button type="submit" className='actionbutton'>Add</button>
+                <button type="submit" className='actionbutton'>Add new ToDo list</button>
             </div>
         </form>
     )
