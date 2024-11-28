@@ -104,12 +104,16 @@ button:focus-visible {
   border-color: #646cff;
 }
 
+label {
+  width: 100%;
+}
+
 input {
-  /*width: 80%;*/
+  width: 100%;
 }
 
 textarea {
-  /*width: 90%;*/
+  width: 100%;
 }
 
 .error {
