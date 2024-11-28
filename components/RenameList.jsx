@@ -2,11 +2,12 @@ const RenameList = ({ handleListNameChange, newName, selectedList, renameList, s
     return (
         <form onSubmit={renameList} id="renamelist">
             <div>
-                Name: <input 
+            <label for="list_rename">New ToDo list name:</label>
+                <input 
                 onChange={handleListNameChange}
                 defaultValue={selectedList}
                 aria-label="Enter new list name"
-                id="name"
+                id="list_rename"
                 maxLength={60}
                 />
             </div>

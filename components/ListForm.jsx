@@ -2,10 +2,11 @@ const ListForm = ({ addToDoList, handleListChange, newName }) => {
     return (
         <form id="create_list" onSubmit={addToDoList}>
             <div>
-                New ToDo list name: <input 
+                <label for="list_name">New ToDo list name:</label>
+                <input 
                 onChange={handleListChange}
                 value={newName}
-                id="rename_list_field"
+                id="list_name"
                 aria-label="Enter todo list name"
                 maxLength={60}
                 />
