@@ -104,6 +104,9 @@ button:focus-visible {
   border-color: #646cff;
 }
 
+.selectedfilter {
+  background-color: #cef5f8;
+}
 label {
   width: 100%;
 }

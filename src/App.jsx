@@ -65,6 +65,23 @@ const App = () => {
     console.log(selectedList)
     console.log(todo.name)
 
+    // initializing the filter buttons
+    const statusfilterbuttons = document.getElementsByClassName("statusfilterbutton")
+    const selectedbuttons = document.getElementsByClassName("selectedfilter")
+
+    // removing class selectedfilter from filterbuttons 
+    Array.from(selectedbuttons).forEach(el => {
+      el.classList.remove("selectedfilter")
+    })
+
+    // adding class selectedfilter to filterbutton "all"
+    Array.from(statusfilterbuttons).forEach(el => {
+      if (el.value === 'all') {
+        console.log('yes')
+        el.classList.add("selectedfilter")
+      }
+    })
+
     todolists.forEach(list => {
       if (list.name === todo.name){
         setSelectedTasks(list.tasks)
@@ -110,8 +127,7 @@ const App = () => {
     setSelectedDescription(task.description)
     console.log(task.description)
     console.log(selectedTask)
-    console.log("status")
-    console.log(task.status)
+    console.log("status:", task.status)
 
     const statusbuttons = document.getElementsByClassName("statusbutton")
     const selectedbuttons = document.getElementsByClassName("selected_status")
@@ -455,7 +471,15 @@ const App = () => {
   // filtering the list of tasks
   const filterTasks = (event) => {
     console.log("filterstatus ")
+
+    const selectedfilterbuttons = document.getElementsByClassName("selectedfilter")
+
+    Array.from(selectedfilterbuttons).forEach(el => {
+      el.classList.remove("selectedfilter")
+    })
+
     event.preventDefault()
+event.target.classList.add('selectedfilter')
     
     const all_tasks = document.getElementsByClassName("task")
 
