@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const TaskEditForm = ({ handleDescriptionUpdate, selectedDescription, returnTaskView, updateTask, changeStatus}) => {
     return (
         <form onSubmit={updateTask}>
@@ -21,4 +23,15 @@ const TaskEditForm = ({ handleDescriptionUpdate, selectedDescription, returnTask
     )
   }
   //  onSubmit={updateTask}
+
+  TaskEditForm.displayName = 'TaskEditForm'
+
+  TaskEditForm.propTypes = {
+    selectedDescription: PropTypes.string.isRequired,
+    handleDescriptionUpdate: PropTypes.func,
+    returnTaskView: PropTypes.func,
+    updateTask: PropTypes.func,
+    changeStatus: PropTypes.func
+  }
+
   export default TaskEditForm

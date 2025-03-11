@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types'
+
 const ListForm = ({ addToDoList, handleListChange, newName }) => {
     return (
         <form id="create_list" onSubmit={addToDoList}>
             <div>
-                <label for="list_name">New ToDo list name:</label>
+                <label htmlFor="list_name">New ToDo list name:</label>
                 <input 
                 onChange={handleListChange}
                 value={newName}
@@ -18,4 +20,12 @@ const ListForm = ({ addToDoList, handleListChange, newName }) => {
     )
   }
   
+  ListForm.displayName = 'ToDoListForm'
+
+  ListForm.propTypes = {
+    newName: PropTypes.string.isRequired,
+    addToDoList: PropTypes.func,
+    handleListChange: PropTypes.func
+  }
+
   export default ListForm
