@@ -290,7 +290,7 @@ const App = () => {
   }
   else {
     console.log("too short list name length")
-    setErrorMessage('Too short name')
+    setErrorMessage('Too short list name')
     setTimeout(() => {
       setErrorMessage(null)
     }, 4000)
@@ -331,6 +331,10 @@ const App = () => {
     }
     else {
       console.log("Too short task name length")
+      setErrorMessage('Too short task name')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 4000)
     }
     //console.log("task list "+tasks)
     addtaskform.reset()
