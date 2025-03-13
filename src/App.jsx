@@ -16,15 +16,14 @@ const App = () => {
 
   // helper states
   const [storeChecked, setStoreStatus] = useState(false)  
-  const [updatedName, setUpdatedName] = useState('')
-  //const [newName, setNewName] = useState('')
+  const [newName, setNewName] = useState('')
+  const [selectedDescription, setSelectedDescription] = useState([]) 
   const [newStatus, setNewStatus] = useState('')
   const [selectedList, setSelectedList] = useState([])
   const [selectedListId, setSelectedListId] = useState('')
   const [selectedTasks, setSelectedTasks] = useState([])
   const [selectedTask, setSelectedTask] = useState([])
   const [selectedTaskId, setSelectedTaskId] = useState([])
-  const [selectedDescription, setSelectedDescription] = useState([]) 
   const [errorMessage, setErrorMessage] = useState(null) 
 
   // Selecting component groups for showing and hiding
@@ -158,8 +157,8 @@ const App = () => {
   }
 
   // Updating task details
-  const updateTask = (event) => {
-    event.preventDefault()
+  const updateTask = (newDescription) => {
+    //event.preventDefault()
     console.log("update task")
     console.log(selectedList)
     console.log(selectedTask)
@@ -168,7 +167,7 @@ const App = () => {
     selectedTasks.forEach(task => {
       if (task.id === selectedTaskId){
         console.log("id found")
-        task.description = selectedDescription
+        task.description = newDescription
         task.status = newStatus
         console.log(task)
         //list.tasks.push(taskObject)
@@ -215,19 +214,6 @@ const App = () => {
     setNewStatus(event.target.value)
   }
 
-  // handling form field changes
-  const handleDescriptionUpdate = (event) => {
-    console.log(event.target.value)
-    setSelectedDescription(event.target.value)
-    console.log("descr "+selectedDescription)
-  }
-
-  // handling form field changes
-  const handleListNameChange = (event) => {
-    console.log(event.target.value)
-    setUpdatedName(event.target.value)
-    console.log(updatedName)
-  }
 
   // adding a new todo list
   const addToDoList = (newName) => {
@@ -404,8 +390,8 @@ const App = () => {
   }
 
   // renaming a todo list
-  const renameList = (event) => {
-    event.preventDefault()
+  const renameList = (updatedName) => {
+    //event.preventDefault()
     console.log("new name: " + updatedName)
     console.log("name to be updated: " +selectedList)
 
@@ -521,13 +507,13 @@ event.target.classList.add('selectedfilter')
      <div id='taskedit' className='hidden'>
         <h2>{selectedTask}</h2>
         <button onClick={deleteTask} className='actionbutton'>Delete this task</button>
-        <TaskEditForm handleDescriptionUpdate={handleDescriptionUpdate} selectedDescription={selectedDescription}  
-        returnTaskView={returnTaskView} selectedList={selectedList} selectedTask={selectedTask} updateTask={updateTask} changeStatus={changeStatus}/>
+        <TaskEditForm selectedDescription={selectedDescription} returnTaskView={returnTaskView} 
+        selectedList={selectedList} selectedTask={selectedTask} updateTask={updateTask} changeStatus={changeStatus}/>
      </div>
 
      <div id='listedit' className='hidden'>
      <h2>Rename list</h2>
-        <ListEditForm handleListNameChange={handleListNameChange} showListView={showListView} selectedList={selectedList} renameList={renameList}/>
+        <ListEditForm showListView={showListView} selectedList={selectedList} renameList={renameList}/>
      </div>
      <ErrorMessage errorMessage={errorMessage}/>
     </div>
