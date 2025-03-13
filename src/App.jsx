@@ -17,6 +17,7 @@ const App = () => {
   // helper states
   const [storeChecked, setStoreStatus] = useState(false)  
   const [updatedName, setUpdatedName] = useState('')
+  //const [newName, setNewName] = useState('')
   const [newStatus, setNewStatus] = useState('')
   const [selectedList, setSelectedList] = useState([])
   const [selectedListId, setSelectedListId] = useState('')
@@ -292,6 +293,9 @@ const App = () => {
   
       //setTasks(tasks.concat(taskObject))
 
+
+      console.log(taskObject)
+
       // finding the correct list for adding the task to
       todolists.forEach(list => {
         if (list.name === selectedList){
@@ -299,7 +303,7 @@ const App = () => {
 
           let newtasks = [...list.tasks]
           newtasks.push(taskObject)
-
+          list.tasks = newtasks
           setSelectedTasks(newtasks)
           setToDoLists(todolists)
         }
