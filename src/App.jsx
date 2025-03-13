@@ -17,9 +17,7 @@ const App = () => {
   // helper states
   const [storeChecked, setStoreStatus] = useState(false)  
   const [updatedName, setUpdatedName] = useState('')
-  const [newTask, setNewTask] = useState('')
   const [newStatus, setNewStatus] = useState('')
-  const [newDescription, setNewDescription] = useState('')
   const [selectedList, setSelectedList] = useState([])
   const [selectedListId, setSelectedListId] = useState('')
   const [selectedTasks, setSelectedTasks] = useState([])
@@ -217,20 +215,6 @@ const App = () => {
   }
 
   // handling form field changes
-  const handleTaskChange = (event) => {
-    console.log(event.target.value)
-    setNewTask(event.target.value)
-    console.log(newTask)
-  }
-
-  // handling form field changes
-  const handleDescriptionChange = (event) => {
-    console.log(event.target.value)
-    setNewDescription(event.target.value)
-    console.log(newDescription)
-  }
-
-  // handling form field changes
   const handleDescriptionUpdate = (event) => {
     console.log(event.target.value)
     setSelectedDescription(event.target.value)
@@ -274,7 +258,7 @@ const App = () => {
       }
         console.log("new object:", todoListObject)
         setToDoLists(todolists.concat(todoListObject))
-        console.log(todolists)
+        console.log("updated lists", todolists)
 
         //localStorage.setItem("ToDoLists", JSON.stringify(todolists));
       }
@@ -291,9 +275,10 @@ const App = () => {
   }
 
   // adding a new task when submitting the form
-  const addTask = (event) => {
+  const addTask = (newTask, newDescription) => {
     console.log("addtask "+selectedList)
-    event.preventDefault()
+    console.log(newTask, newDescription)
+    //event.preventDefault()
 
     if (newTask.length > 1) {
       console.log("Good task name length")
@@ -311,8 +296,12 @@ const App = () => {
       todolists.forEach(list => {
         if (list.name === selectedList){
           console.log("list found", list.name, list.id, list.tasks)
-          list.tasks.push(taskObject)
-          setSelectedTasks(list.tasks)
+
+          let newtasks = [...list.tasks]
+          newtasks.push(taskObject)
+
+          setSelectedTasks(newtasks)
+          setToDoLists(todolists)
         }
         else {
           console.log("wrong list "+selectedList)
@@ -331,8 +320,6 @@ const App = () => {
     addtaskform.reset()
 
     console.log("todo lists", todolists)
-    setNewTask('')
-    setNewDescription('')
     console.log("addtask ends")
 
   }
@@ -525,8 +512,7 @@ event.target.classList.add('selectedfilter')
           <button onClick={filterTasks} className='statusfilterbutton' value="done">Done</button>
         </div>
         {selectedTasks.map(task => <Task key={task.id} task={task} editTask={editTask}/>)}
-        <TaskForm addTask={addTask} handleTaskChange={handleTaskChange} handleDescriptionChange={handleDescriptionChange} newTask={newTask} 
-        showListView={showListView}/>
+        <TaskForm addTask={addTask} showListView={showListView} />
      </div>
      <div id='taskedit' className='hidden'>
         <h2>{selectedTask}</h2>

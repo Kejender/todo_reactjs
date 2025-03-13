@@ -1,8 +1,33 @@
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const TaskForm = ({ addTask, handleTaskChange, handleDescriptionChange, newTask, newDescription, showListView }) => {
+const TaskForm = ({ addTask, showListView }) => {
+
+  const [newTask, setNewTask] = useState('')
+  const [newDescription, setNewDescription] = useState('')
+
+  const handleTaskChange = (event) => {
+    console.log(event.target.value)
+    setNewTask(event.target.value)
+    console.log(newTask)
+  }
+
+  const handleDescriptionChange = (event) => {
+    console.log(event.target.value)
+    setNewDescription(event.target.value)
+    console.log(newDescription)
+  }
+
+  const submitTask = (event) => {
+    event.preventDefault()
+    console.log("Submit to list:", newTask)
+    addTask(newTask, newDescription)
+    setNewTask('')
+    setNewDescription('')
+  }
+
     return (
-        <form id="addtask" onSubmit={addTask}>
+        <form id="addtask" onSubmit={submitTask}>
             <div>
                 <label htmlFor="taskname">Task name:</label>
                 <input 
@@ -31,11 +56,6 @@ const TaskForm = ({ addTask, handleTaskChange, handleDescriptionChange, newTask,
   TaskForm.displayName = 'TaskEditForm'
 
   TaskForm.propTypes = {
-    newTask: PropTypes.string.isRequired,
-    newDescription: PropTypes.string.isRequired,
-    addTask: PropTypes.func,
-    handleTaskChange: PropTypes.func,
-    handleDescriptionChange: PropTypes.func,
     showListView: PropTypes.func
   }
 
