@@ -1,8 +1,24 @@
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const ListForm = ({ addToDoList, handleListChange, newName }) => {
+const ListForm = ({ addToDoList }) => {
+    const [newName, setNewName] = useState('')
+
+    const handleListChange = (event) => {
+        console.log(event.target.value)
+        setNewName(event.target.value)
+        console.log(newName)
+    }
+
+    const submitToDoList = (event) => {
+        event.preventDefault()
+        console.log("Submit to list:", newName)
+        addToDoList(newName)
+        setNewName('')
+    }
+  
     return (
-        <form id="create_list" onSubmit={addToDoList}>
+        <form id="create_list" onSubmit={submitToDoList}>
             <div>
                 <label htmlFor="list_name">New ToDo list name:</label>
                 <input 
@@ -23,9 +39,7 @@ const ListForm = ({ addToDoList, handleListChange, newName }) => {
   ListForm.displayName = 'ToDoListForm'
 
   ListForm.propTypes = {
-    newName: PropTypes.string.isRequired,
     addToDoList: PropTypes.func,
-    handleListChange: PropTypes.func
   }
 
   export default ListForm

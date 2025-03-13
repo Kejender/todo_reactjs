@@ -16,7 +16,6 @@ const App = () => {
 
   // helper states
   const [storeChecked, setStoreStatus] = useState(false)  
-  const [newName, setNewName] = useState('')
   const [updatedName, setUpdatedName] = useState('')
   const [newTask, setNewTask] = useState('')
   const [newStatus, setNewStatus] = useState('')
@@ -218,13 +217,6 @@ const App = () => {
   }
 
   // handling form field changes
-  const handleListChange = (event) => {
-    console.log(event.target.value)
-    setNewName(event.target.value)
-    console.log(newName)
-  }
-
-  // handling form field changes
   const handleTaskChange = (event) => {
     console.log(event.target.value)
     setNewTask(event.target.value)
@@ -253,9 +245,8 @@ const App = () => {
   }
 
   // adding a new todo list
-  const addToDoList = (event) => {
+  const addToDoList = (newName) => {
     console.log("add to list:", newName)
-    event.preventDefault()
     console.log("List of todo lists length:", todolists.length)
 
     if (newName.length > 1) {
@@ -295,7 +286,7 @@ const App = () => {
       setErrorMessage(null)
     }, 4000)
   }
-    setNewName('')
+    //setNewName('')
     console.log(todolists)
   }
 
@@ -517,7 +508,7 @@ event.target.classList.add('selectedfilter')
       <div id='listview' className='visible'>
       <h2>Todo Lists</h2>
         {todolists.map(todo => <ToDoList key={todo.id} todo={todo} showTaskView={showTaskView} setSelectedList={setSelectedList}/>)}
-        <ListForm addToDoList={addToDoList} handleListChange={handleListChange} newName={newName}/>
+        <ListForm addToDoList={addToDoList}/>
       </div>
 
       <div id='taskview' className='hidden'>
